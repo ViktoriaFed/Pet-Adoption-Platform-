@@ -4,6 +4,8 @@
 
 {% block body %}
 {% include "components/navbar.html.twig" %}
+<div class="hero-section">
+</div>
     <div class="content">
         <h1>Upcoming events</h1>
         <div class="create">
@@ -13,7 +15,7 @@
         <div class="grid-container">
             {% for event in events %}
                 <div class="card">
-                    <img src="{{ event.image }}" alt="card-image">
+                    <img src="{{asset('images/'~ event.image)}}" alt="card-image">
                     <div class="card-content">
                         <h3>{{ event.name }}</h3>
                         <p>When: {{ event.dateTime ? event.dateTime|date('Y-m-d') : '' }}</p>

@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
+
+
 
 #[Route('/events')]
 class EventsController extends AbstractController
@@ -21,15 +24,23 @@ class EventsController extends AbstractController
             'events' => $eventsRepository->findAll(),
         ]);
     }
+    //////
+
+    //////
 
     #[Route('/new', name: 'app_events_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $event = new Events();
         $form = $this->createForm(EventsType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $imageFileName = $fileUploader->upload($imageFile);
+                $event->setImage($imageFileName);
+            }
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -47,6 +58,7 @@ class EventsController extends AbstractController
     {
         return $this->render('events/show.html.twig', [
             'event' => $event,
+            'type' => $event->getFkType()
         ]);
     }
 
@@ -71,7 +83,7 @@ class EventsController extends AbstractController
     #[Route('/{id}', name: 'app_events_delete', methods: ['POST'])]
     public function delete(Request $request, Events $event, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
             $entityManager->remove($event);
             $entityManager->flush();
         }
