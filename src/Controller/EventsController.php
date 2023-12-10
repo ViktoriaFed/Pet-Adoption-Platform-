@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Events;
+use App\Entity\Type;
 use App\Form\EventsType;
 use App\Repository\EventsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,18 +12,41 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
-
-
+use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/events')]
 class EventsController extends AbstractController
 {
     #[Route('/', name: 'app_events_index', methods: ['GET'])]
-    public function index(EventsRepository $eventsRepository): Response
+    public function index(EventsRepository $eventsRepository, Request $request, ManagerRegistry $doctrine): Response
     {
+        $type = $request->query->get('fk_type_id', 'all');
+        $entityManager = $doctrine->getManager();
+        $allEvents = $doctrine->getRepository(Type::class)->findAll();
+
+        //all events
+        if ($type !== 'all') {
+            $events = $entityManager
+                ->getRepository(Events::class)
+                ->createQueryBuilder('e')
+                ->join('e.fk_type_id', 't')
+                ->andWhere('t.name = :type')
+                ->setParameter('type', $type)
+                ->getQuery()
+                ->getResult();
+        } else {
+            $events = $doctrine->getRepository(Events::class)->findAll();
+        }
+
         return $this->render('events/index.html.twig', [
-            'events' => $eventsRepository->findAll(),
+            'events' => $events,
+            'allEvents' => $allEvents,
+            'type' => $type,
         ]);
+
+        // return $this->render('events/index.html.twig', [
+        //     'events' => $eventsRepository->findAll(),
+        // ]);
     }
     //////
 

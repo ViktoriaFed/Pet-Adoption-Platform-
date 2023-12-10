@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Events index{% endblock %}
+{% block title %}Events{% endblock %}
 
 {% block body %}
 {% include "components/navbar.html.twig" %}
@@ -11,13 +11,24 @@
         <div class="create">
             <a href="{{ path('app_events_new') }}">Create new event</a>
         </div>
+        <div class="filter">
+            <label for="type">Select type of the event:</label>
+            <br>
+            <br>
+                <select>
+                <option value="all">All Events</option>
+                {% for allEvent in allEvents %}
+                <option href="{{ path('app_events_index', { fk_type_id: allEvent.name})}}">{{ allEvent.name}}</option>
+                {% endfor %}
+                </select>
+        </div>
 
         <div class="grid-container">
             {% for event in events %}
                 <div class="card">
                     <img src="{{asset('images/'~ event.image)}}" alt="card-image">
                     <div class="card-content">
-                        <h3>{{ event.name }}</h3>
+                            <h3>{{ event.name }}</h3>
                         <p>When: {{ event.dateTime ? event.dateTime|date('Y-m-d') : '' }}</p>
                         <div class="buttons">
                             <a href="{{ path('app_events_show', {'id': event.id}) }}">Details</a>
@@ -31,5 +42,6 @@
         </div>
     </div>
 
-    {% include "components/footer.html.twig" %}
+    {% include "components/footer.html.twig" %} 
+
 {% endblock %}

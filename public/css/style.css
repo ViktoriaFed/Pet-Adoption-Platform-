@@ -129,7 +129,7 @@ nav {
     border-radius: 5px;
     color: var(--main-color);
     text-align: center;
-  }
+}
 
   .buttons {
     padding: 2rem 1rem;
@@ -164,6 +164,8 @@ nav {
   img {
     border-radius: 5px 5px 0 0;
     width: 100%;
+    object-fit: cover;
+    height: 40%;
   }
   
   .card-content {
@@ -185,6 +187,35 @@ nav {
     background-color: var(--dark-color);
     text-align: center;
     line-height: 2rem;
+  }
+
+  .filter {
+    padding-top: 3rem;
+    text-align: end;
+    padding-right: 8rem;
+  }
+
+  select {
+    display: block;
+    float: right;
+    width: 30%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--gray-color);
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid var(--main-color);
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  select:focus {
+    color: var(--gray-color);
+    background-color: #fff;
+    border-color: var(--main-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(248, 137, 156, 0.753);
   }
 
   /*footer*/
