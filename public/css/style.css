@@ -503,7 +503,6 @@ nav {
     justify-content: space-evenly;
     margin: 0.2rem 1rem;
     padding: 0.2rem 0.8rem; /*see later*/
-    height: 100vh;
     justify-content: center;
     gap: 0.5rem;
 }

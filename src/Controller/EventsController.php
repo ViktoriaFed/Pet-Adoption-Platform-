@@ -44,13 +44,12 @@ class EventsController extends AbstractController
             'type' => $type,
         ]);
 
+        ////no filter rendering //////
         // return $this->render('events/index.html.twig', [
         //     'events' => $eventsRepository->findAll(),
         // ]);
+        /////////////////////////////
     }
-    //////
-
-    //////
 
     #[Route('/new', name: 'app_events_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response

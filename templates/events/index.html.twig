@@ -46,21 +46,21 @@
     
     {% include "components/footer.html.twig" %}
     
-
-<script>
-    const selectElement = document.getElementById('eventType');
-        selectElement.addEventListener('change', function () {
-            const selectedValue = this.value; 
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                const eventName = card.querySelector('h3').value;
-                if (selectedValue === 'all' || selectedValue === eventName) {
-                    card.style.display = 'block'; 
-                } else {
-                    card.style.display = 'none'; 
-                }
+<!--Can't make it work :( -->
+    <script>
+        const selectElement = document.getElementById('eventType');
+            selectElement.addEventListener('change', function () {
+                const selectedValue = this.value; 
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(card => {
+                    const eventName = card.querySelector('h3').value;
+                    if (selectedValue === 'all' || selectedValue === eventName) {
+                        card.style.display = 'block'; 
+                    } else {
+                        card.style.display = 'none'; 
+                    }
+                });
             });
-        });
-</script>
+    </script>
 
 {% endblock %}
