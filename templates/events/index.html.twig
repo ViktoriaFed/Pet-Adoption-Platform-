@@ -15,7 +15,7 @@
             <label for="type">Select type of the event:</label>
             <br>
             <br>
-                <select>
+                <select id="eventType">
                 <option value="all">All Events</option>
                 {% for allEvent in allEvents %}
                 <option href="{{ path('app_events_index', { fk_type_id: allEvent.name})}}">{{ allEvent.name}}</option>
@@ -24,6 +24,7 @@
         </div>
 
         <div class="grid-container">
+          
             {% for event in events %}
                 <div class="card">
                     <img src="{{asset('images/'~ event.image)}}" alt="card-image">
@@ -40,8 +41,26 @@
                 <p>No records found<p>
             {% endfor %}
         </div>
+            
     </div>
+    
+    {% include "components/footer.html.twig" %}
+    
 
-    {% include "components/footer.html.twig" %} 
+<script>
+    const selectElement = document.getElementById('eventType');
+        selectElement.addEventListener('change', function () {
+            const selectedValue = this.value; 
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const eventName = card.querySelector('h3').value;
+                if (selectedValue === 'all' || selectedValue === eventName) {
+                    card.style.display = 'block'; 
+                } else {
+                    card.style.display = 'none'; 
+                }
+            });
+        });
+</script>
 
 {% endblock %}
